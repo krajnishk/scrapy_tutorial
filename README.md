@@ -1,0 +1,1 @@
+Scrapy Tutorial Self Learning Using Python  3.9.2 & Scrapy 2.4.1
