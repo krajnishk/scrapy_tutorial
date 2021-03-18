@@ -1,5 +1,4 @@
 import scrapy
-import os.path
 
 
 class QuoteSpider(scrapy.Spider):
