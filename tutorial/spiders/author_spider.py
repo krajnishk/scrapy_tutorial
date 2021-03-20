@@ -1,4 +1,5 @@
 import scrapy
+from .. items import AuthorItem
 
 
 class AuthorSpider(scrapy.Spider):
@@ -21,9 +22,21 @@ class AuthorSpider(scrapy.Spider):
 
     def parse_author(self, response):
         """ Parse author page to get the data """
-        yield {
-            'author_name':   response.xpath(".//h3[@class='author-title']/text()").get().strip(),
-            'author_dob':   response.xpath(".//span[@class='author-born-date']/text()").get().strip(),
-            'author_pob':   response.xpath(".//span[@class='author-born-location']/text()").get().strip('in '),
-            'author_bio':   response.xpath(".//div[@class='author-description']/text()").get().strip()
-        }
+
+        items = AuthorItem()
+
+        author_name = response.xpath(
+            ".//h3[@class='author-title']/text()").get().strip(),
+        author_dob = response.xpath(
+            ".//span[@class='author-born-date']/text()").get().strip(),
+        author_pob = response.xpath(
+            ".//span[@class='author-born-location']/text()").get().strip('in '),
+        author_bio = response.xpath(
+            ".//div[@class='author-description']/text()").get().strip()
+
+        items['author_name'] = author_name
+        items['author_dob'] = author_dob
+        items['author_pob'] = author_pob
+        items['author_bio'] = author_bio
+
+        yield items
