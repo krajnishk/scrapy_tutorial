@@ -28,6 +28,6 @@ class QuoteSpider(scrapy.Spider):
             yield items
 
         #   Pagination, handling next pages
-        # next_page_url = response.xpath('//li[@class="next"]/a/@href').get()
-        # if next_page_url is not None:
-        #     yield response.follow(next_page_url, callback=self.parse)
+        next_page_url = response.xpath('//li[@class="next"]/a/@href').get()
+        if next_page_url is not None:
+            yield response.follow(next_page_url, callback=self.parse)
