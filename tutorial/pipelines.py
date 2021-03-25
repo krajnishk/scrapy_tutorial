@@ -36,12 +36,20 @@ class TutorialPipeline:
         )
 
     def store_db(self, item):
+
+        # Handling quotes with no Tags by pasing a default 'NO_TAG'
+        try:
+            item_tag = item['tags'][0]
+        except IndexError:
+            item_tag = 'NO_TAG'
+
         self.curr.execute(
             """
             insert into quotes_tb values(?,?,?)""", (
                 item['title'],
                 item['author'],
-                item['tags'][0]
+                # item['tags'][0]
+                item_tag
             )
         )
         self.conn.commit()
