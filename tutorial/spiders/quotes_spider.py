@@ -5,9 +5,10 @@ from .. items import QuoteItem
 class QuoteSpider(scrapy.Spider):
     """ spider to crawl and get the required data """
     name = "quotes"
+    page_no = 2
 
     start_urls = [
-        'http://quotes.toscrape.com/',
+        'http://quotes.toscrape.com/page/1/'
     ]
 
     def parse(self, response):
@@ -28,6 +29,10 @@ class QuoteSpider(scrapy.Spider):
             yield items
 
         #   Pagination, handling next pages
-        next_page_url = response.xpath('//li[@class="next"]/a/@href').get()
-        if next_page_url is not None:
+        # next_page_url = response.xpath('//li[@class="next"]/a/@href').get()
+        next_page_url = 'http://quotes.toscrape.com/page/' + \
+            str(QuoteSpider.page_no) + '/'
+        # if next_page_url is not None:
+        if QuoteSpider.page_no < 4:
+            QuoteSpider.page_no += 1
             yield response.follow(next_page_url, callback=self.parse)
